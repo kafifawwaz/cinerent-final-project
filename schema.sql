@@ -13,7 +13,7 @@ CREATE TABLE Users (
 CREATE TABLE Genre (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id)    
 );
 
 CREATE TABLE Films (
@@ -78,11 +78,10 @@ CREATE TABLE RentalDetails (
         ON DELETE CASCADE
 );
 
--- ==========================================
+
 -- DATA DUMMY / SEED DATA UNTUK TESTING
 -- Notes: Data Dummy ini di-insert agar halaman katalog, 
 -- home, dan admin tidak kosong saat aplikasi pertama kali di-run.
--- ==========================================
 
 -- 1. Account Admin Default [pw : Admin@1234]
 INSERT INTO Users (username, email, password, gender, dateOfBirth, role) VALUES

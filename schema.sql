@@ -6,20 +6,20 @@ CREATE TABLE Users (
     gender VARCHAR(10) NULL,
     dateOfBirth DATE NOT NULL,
     role VARCHAR(10) NOT NULL DEFAULT 'member',
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE Genre (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)    
 );
 
 CREATE TABLE Films (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    title VARCHAR(200) NOT NULL,
-    description TEXT NULL,
+    title VARCHAR(50) NOT NULL,
+    description VARCHAR(300) NOT NULL,
     director VARCHAR(50) NOT NULL,
     releaseYear INT(10) NOT NULL,
     stock INT(10) NOT NULL DEFAULT 0,
@@ -31,18 +31,16 @@ CREATE TABLE Films (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE Cart (
-    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE CartItems (
     userId INT(10) UNSIGNED NOT NULL,
     filmid INT(10) UNSIGNED NOT NULL,
-    addedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_cart_user_film (userId, filmid), 
-    CONSTRAINT fk_cart_user
+    addedDate DATE DEFAULT (CURRENT_DATE),
+    PRIMARY KEY (userId, filmid), 
+    CONSTRAINT fk_ci_user
         FOREIGN KEY (userId) REFERENCES Users(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    CONSTRAINT fk_cart_film
+    CONSTRAINT fk_ci_film
         FOREIGN KEY (filmid) REFERENCES Films(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
@@ -55,7 +53,7 @@ CREATE TABLE Rentals (
     dueDate DATE NOT NULL,
     returnDate DATE NULL,
     status VARCHAR(15) NOT NULL DEFAULT 'borrowed',
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     CONSTRAINT fk_rentals_user
         FOREIGN KEY (userId) REFERENCES Users(id)
@@ -64,7 +62,6 @@ CREATE TABLE Rentals (
 );
 
 CREATE TABLE RentalDetails (
-    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     rentalId INT(10) UNSIGNED NOT NULL,
     filmid INT(10) UNSIGNED NOT NULL,
     PRIMARY KEY (id),

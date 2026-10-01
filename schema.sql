@@ -1,7 +1,3 @@
--- ==========================================
--- DDL DATABASE CINERENT (BERDASARKAN ERD ASLAB)
--- ==========================================
-
 CREATE TABLE Users (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL,
@@ -100,7 +96,7 @@ INSERT INTO Genre (name) VALUES
 ('Crime'),
 ('Animation');
 
--- 3. Data Film (Deskripsi dipastikan <= 300 Karakter)
+-- 3. Data Film
 INSERT INTO Films (title, description, director, releaseYear, stock, genreId) VALUES
 ('Forrest Gump', 'The presidencies of Kennedy and Johnson, the Vietnam War, and other historical events unfold from the perspective of an Alabama man with an IQ of 75.', 'Robert Zemeckis', 1994, 5, 2),
 ('Get Out', 'A young African-American visits his white girlfriend\'s parents for the weekend, where his uneasiness about their reception eventually reaches a boiling point.', 'Jordan Peele', 2017, 3, 3),

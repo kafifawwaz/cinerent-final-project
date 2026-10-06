@@ -16,9 +16,9 @@ $qresult = mysqli_query($scann, $query);
 
     <div class="main">
         <?php while($Film = mysqli_fetch_assoc($result)) { ?>
-            <div class="movie"
+            <div class="movie">
             <h3> <?php echo htmlspecialchars($film['title']); ?></h3>
-                <p>Director: <?php echo htmlspecialchars($film['dierctor']); ?> </p>
+                <p>Director: <?php echo htmlspecialchars($film['director']); ?> </p>
                 <p>Relase Year: <?php echo $film['releaseYear']; ?> </p>
                 <p>Stock: <?php echo $film['stock']; ?> </p>
                 <a href= "film_detail.php?id=<?php echo $film['id']; ?>">

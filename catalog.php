@@ -1,7 +1,7 @@
 <?php
 include './Config/database.php';
 $query = "SELECT * FROM Films";
-$qresult = mysqli_query($scann, $query);
+$result = mysqli_query($scann, $query);
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ $qresult = mysqli_query($scann, $query);
     <h1> Film Catalog</h1>
 
     <div class="main">
-        <?php while($Film = mysqli_fetch_assoc($result)) { ?>
+        <?php while($film = mysqli_fetch_assoc($result)) { ?>
             <div class="movie">
             <h3> <?php echo htmlspecialchars($film['title']); ?></h3>
                 <p>Director: <?php echo htmlspecialchars($film['director']); ?> </p>

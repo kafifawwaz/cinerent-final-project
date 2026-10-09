@@ -10,7 +10,7 @@ if($id){
     mysqli_stmt_execute($stmt);
 
     $qresult = mysqli_stmt_get_result($stmt);
-    $film = mysqli_fetch_assoc($qresult);
+    $film = mysqli_fetch_assoc($result);
 
 } else {
     $film = null;

@@ -1,6 +1,7 @@
 <?php
 include './Config/database.php';
 
+<<<<<<< HEAD
 $query = "SELECT * FROM Films ORDER BY RAND() 6";
 $result = mysqli_query($scann, $query);
 
@@ -19,6 +20,15 @@ if ($result) {
     error_log("Database query failed: " . mysqli_error($scann));
     echo "Sorry, we couldn't load the films right now.";
 }
+=======
+$query = "SELECT Films*, Genre.name AS genreName
+        FROM FILMS
+        JOIN Genre ON Films.genreID = Genre.id
+        ORDER BY RAND()
+        LIMIT 6";
+
+$result = mysqli_query($scann, $query);
+>>>>>>> 9290d47946dcbd9719f3e7dc66ff7706bf146c12
 ?>
 
 <!DOCTYPE html>
@@ -30,12 +40,12 @@ if ($result) {
 </head>
 <body>
     <h1>Cinerent</h1>
-    <div class="Films">
+    <div class="films">
         <?php while ($film = mysqli_fetch_assoc($result)) { ?>
             <div class="film">
                 <h3><?php echo $film['title']; ?></h3>
-                <p> Genre: <?php echo $film['genreId']; ?></p>
-                <a href="film_detail_php?id=<? echo $film['id'] ?>">
+                <p> Genre: <?php echo $film['genreName']; ?></p>
+                <a href="film_detail.php?id=<? echo $film['id'] ?>">
                     View Detail
                 </a>
             </div>

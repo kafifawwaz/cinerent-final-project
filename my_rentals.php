@@ -21,6 +21,7 @@ $query = "SELECT Rentals.id, Rentals.borrowDate, Rentals.dueDate, Rentals.return
         ORDER BY Rentals.id DESC";
 
 $result = mysqli_query($scann, $query);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +58,6 @@ $result = mysqli_query($scann, $query);
         <p>You don't have any rental history yet.</p>
 
     <?php } ?>
-    
+
 </body>
 </html>

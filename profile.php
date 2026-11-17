@@ -10,6 +10,8 @@ if(!isset($_SESSION['user_id'])) {
 
 $userId = $_SESSION['user_id'];
 $usernameError = "";
+$emailError = "";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
@@ -31,6 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_num_rows($checkUsernameResult) > 0){
             $usernameError = "Username already exists";
+        }
+    }
+
+    if (empty($email)) {
+        $emailError = "Email is required";
+    } elseif (substr($email, -10) != '@gmail.com') {
+        $emailError = "Email must end wiith @gmail.com";
+    } else {
+        $checkEmailQuery = "SELECT id FROM Users WHERE email = ? AND id != ?";
+
+        $checkEmail = mysqli_prepare($scann, $checkEmailQuery);
+
+        mysqli_stmt_bind_param($checkEmail, "si", $email, $userId);
+        mysqli_stmt_execute($checkEmail);
+
+        $checkEmailResult = mysqli_stmt_get_result($checkEmail);
+
+        if(mysqli_num_rows($checkEmailResult) > 0) {
+            $emailError = "Email already exists";
         }
     }
 }
@@ -67,7 +88,9 @@ $user = mysqli_fetch_assoc($result);
         <label for="email">Email</label>
         <input type="email" name="email" id="email"
         value="<?php echo htmlspecialchars($user['email']); ?>">
-        <p class="email-error-message"></p>
+        <p class="email-error-message">
+            <?php echo $emailError; ?>
+        </p>
     </div>
 
     <div>

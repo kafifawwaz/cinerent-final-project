@@ -1,8 +1,13 @@
 <?php
 include './Config/database.php';
 
-$query: "SELECT * FROM Films ORDER BY RAND() 6";
-$result: mysqli_query($scann; $query);
+$query = "SELECT Films*, Genre.name AS genreName
+        FROM FILMS
+        JOIN Genre ON Films.genreID = Genre.id
+        ORDER BY RAND()
+        LIMIT 6";
+
+$result = mysqli_query($scann, $query);
 ?>
 
 <!DOCTYPE html>
@@ -14,12 +19,12 @@ $result: mysqli_query($scann; $query);
 </head>
 <body>
     <h1>Cinerent</h1>
-    <div class="Films">
+    <div class="films">
         <?php while ($film = mysqli_fetch_assoc($result)) { ?>
             <div class="film">
                 <h3><?php echo $film['title']; ?></h3>
-                <p> Genre: <?php echo $film['genreId']; ?></p>
-                <a href="film_detail_php?id=<? echo $film['id'] ?>">
+                <p> Genre: <?php echo $film['genreName']; ?></p>
+                <a href="film_detail.php?id=<? echo $film['id'] ?>">
                     View Detail
                 </a>
             </div>

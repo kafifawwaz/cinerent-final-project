@@ -1,8 +1,24 @@
 <?php
 include './Config/database.php';
 
-$query: "SELECT * FROM Films ORDER BY RAND() 6";
-$result: mysqli_query($scann; $query);
+$query = "SELECT * FROM Films ORDER BY RAND() 6";
+$result = mysqli_query($scann, $query);
+
+if ($result) {
+    while ($film = mysqli_fetch_assoc($result)) {
+        echo "<div>";
+        echo "<h3>" . htmlspecialchars($film['title']) . "</h3>";
+        if (isset($film['genre'])) {
+            echo "<p>Genre: " . htmlspecialchars($film['genre']) . "</p>";
+        }
+        echo "</div><hr>";
+    }
+    
+    mysqli_free_result($result);
+} else {
+    error_log("Database query failed: " . mysqli_error($scann));
+    echo "Sorry, we couldn't load the films right now.";
+}
 ?>
 
 <!DOCTYPE html>

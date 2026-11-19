@@ -1,3 +1,47 @@
+<?php 
+session_start();
+include './Config/database.php';
+
+$error = '';
+$succsess = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = mysqli_real_escape_string($scann, $_POST['username']);
+  $email = mysqli_real_escape_string($scann, $_POST['email']);
+  $password = $_POST['password'];
+  $gender = mysqli_real_escape_string($scann, $_POST['gender']);
+  $dateOfBirth = mysqli_real_escape_string($scann, $_POST['dateOfBirth']);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username    = mysqli_real_escape_string($scann, $_POST['username']);
+    $email       = mysqli_real_escape_string($scann, $_POST['email']);
+    $password    = $_POST['password'];
+    $gender      = mysqli_real_escape_string($scann, $_POST['gender']);
+    $dateOfBirth = mysqli_real_escape_string($scann, $_POST['dateOfBirth']);
+
+    // validate
+    if (empty($username) || empty($email) || empty($password) || empty($dateOfBirth)) {
+        $error = "Must be filled";
+    } else {
+        // hashpassword
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // query insert 
+        $query = "INSERT INTO Users (username, email, password, gender, dateOfBirth, role) 
+        VALUES ('$username', '$email', '$hashedPassword', '$gender', '$dateOfBirth', 'member')";
+        
+        if (mysqli_query($scann, $query)) {
+            $success = "Registration successfull";
+        } else {
+            $error = "Registration failed" .mysqli_error($scann);
+        }
+    }
+  }              
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

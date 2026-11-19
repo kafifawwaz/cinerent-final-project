@@ -1,6 +1,26 @@
 <?php
 include './Config/database.php';
 
+<<<<<<< HEAD
+$query = "SELECT * FROM Films ORDER BY RAND() 6";
+$result = mysqli_query($scann, $query);
+
+if ($result) {
+    while ($film = mysqli_fetch_assoc($result)) {
+        echo "<div>";
+        echo "<h3>" . htmlspecialchars($film['title']) . "</h3>";
+        if (isset($film['genre'])) {
+            echo "<p>Genre: " . htmlspecialchars($film['genre']) . "</p>";
+        }
+        echo "</div><hr>";
+    }
+    
+    mysqli_free_result($result);
+} else {
+    error_log("Database query failed: " . mysqli_error($scann));
+    echo "Sorry, we couldn't load the films right now.";
+}
+=======
 $query = "SELECT Films*, Genre.name AS genreName
         FROM FILMS
         JOIN Genre ON Films.genreID = Genre.id
@@ -8,6 +28,7 @@ $query = "SELECT Films*, Genre.name AS genreName
         LIMIT 6";
 
 $result = mysqli_query($scann, $query);
+>>>>>>> 9290d47946dcbd9719f3e7dc66ff7706bf146c12
 ?>
 
 <!DOCTYPE html>

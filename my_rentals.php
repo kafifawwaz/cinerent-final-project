@@ -34,7 +34,7 @@ $result = mysqli_query($scann, $query);
     <h1>My Rentals</h1>
     <?php if (mysqli_num_rows($result) > 0) { ?>
     <table border="1">
-         <tr>
+        <tr>
             <th>Rental ID</th>
             <th>Borrow Date</th>
             <th>Due Date</th>
@@ -57,7 +57,9 @@ $result = mysqli_query($scann, $query);
     <?php } else { ?>
         <p>You don't have any rental history yet.</p>
 
-    <?php } ?>
+    <?php } 
+    
+?>
 
 </body>
 </html>

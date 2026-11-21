@@ -63,15 +63,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Cinerent</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Cinerent</title>
 </head>
 <body>
-  <?php include './includes/header.php'; ?>
+<?php include './includes/header.php'; ?>
 
-  <form action="registerForm">
+<form action="registerForm">
     <h1>Login</h1>
-  </form>
+</form>
 </body>
 </html>

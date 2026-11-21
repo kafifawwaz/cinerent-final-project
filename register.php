@@ -6,41 +6,58 @@ $error = '';
 $succsess = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = mysqli_real_escape_string($scann, $_POST['username']);
-  $email = mysqli_real_escape_string($scann, $_POST['email']);
+  $username = trim($_POST['username']);
+  $email = trim($_POST['email']);
   $password = $_POST['password'];
-  $gender = mysqli_real_escape_string($scann, $_POST['gender']);
-  $dateOfBirth = mysqli_real_escape_string($scann, $_POST['dateOfBirth']);
-}
+  $confirmPassword = $_POST['confirmPassword'];
+  $gender = $_POST['gender'] ?? '';
+  $dateOfBirth = $_POST['dateOfBirth'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username    = mysqli_real_escape_string($scann, $_POST['username']);
-    $email       = mysqli_real_escape_string($scann, $_POST['email']);
-    $password    = $_POST['password'];
-    $gender      = mysqli_real_escape_string($scann, $_POST['gender']);
-    $dateOfBirth = mysqli_real_escape_string($scann, $_POST['dateOfBirth']);
+  if(empty($username) || empty($email) || empty($password) || empty($confirmPassword) || empty($gender) || empty($dateOfBirth)) {
+    $error = "All fields are required";
+  } else if(strlen($username) < 4 || strlen($username) > 20) {
+    $error = "Username must be between 4 and 20 characters";
+  } else if(!str_ends_with($email, '@gmail.com')) {
+    $error = "Email must end with '@gmail.com'";
+  } else if(strlen($password) < 8) {
+    $error = "Password must be 8 characters";
+  } else if($password !== $confirmPassword) {
+    $error = "The password does not match";
+  } else if($gender !== 'Male' && $gender !== 'Female') {
+    $error = "Choose gender";
+  } else if($strtotime($dateOfBirth) >= strtotime(date('Y-m-d'))) {
+    $error = "Date of birth must be dates from past";
+  } else {
+    // amankan user input sebelum query ke dabes
+    $safeUsername = mysqli_real_escape_string($scann, $username);
+    $safeEmail = mysqli_real_escape_string($scann, $email);
+    $safeGender = mysqli_real_escape_string($scann, $gender);
+    $safeDoB = mysqli_real_escape_string($scann, $dateOfBirth);
 
-    // validate
-    if (empty($username) || empty($email) || empty($password) || empty($dateOfBirth)) {
-        $error = "Must be filled";
+    $checkQuery = "SELECT id FROM Users WHERE username = '$safeUsername'
+                  OR email = '$safeEmail' LIMIT 1";
+    $checkResult = mysqli_query($scann, $checkQuery);
+
+    if(mysqli_num_rows($checkResult) > 0) {
+      $error = "Username or Email already use";
     } else {
-        // hashpassword
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+      $insertQuery = "INSERT INTO Users (username, email, password, gender, dateOfBirth, role)
+                      VAlUES ('$safeUsername', '$safeEmail', '$hashedPassword', '$safeGender', 'safeDoB', 'member')";
+      if (mysqli_query($scann,$insertQuery)) {
+        $_SESSION['user_id'] = mysql_insert_id($scann);
+        $_SESSION['username'] = $safeUsername;
+        $_SESSION['role'] = 'member';
 
-        // query insert 
-        $query = "INSERT INTO Users (username, email, password, gender, dateOfBirth, role) 
-        VALUES ('$username', '$email', '$hashedPassword', '$gender', '$dateOfBirth', 'member')";
-        
-        if (mysqli_query($scann, $query)) {
-            $success = "Registration successfull";
-        } else {
-            $error = "Registration failed" .mysqli_error($scann);
-        }
+        header("Location: catalog.php");
+        exit;
+      } else {
+        $error = "Something went wrong " . mysqli_error($scann);
+      }
     }
-  }              
+  }
+}            
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,9 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <div>
       </div>
-  
-  
-      
+
       <div>
         <input type="checkbox" name="agreement" id="agreement">
         <label for="agreement">I agree with all terms & condition</label>

@@ -5,30 +5,33 @@ include './Config/database.php';
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email    = mysqli_real_escape_string($scann, $_POST['email']);
+    $email    = trim($_POST['email']);
     $password = $_POST['password'];
-
     if (empty($email) || empty($password)) {
-        $error = "Email dan password wajib diisi!";
+        $error = "Email and Password must be filed";
     } else {
-        $query = "SELECT * FROM Users WHERE email = '$email' LIMIT 1";
+        $safeEmail = mysqli_real_escape_string($scann, $email);
+        $query = "SELECT * FROM Users WHERE email = '$safeEmail' LIMIT 1";
         $result = mysqli_query($scann, $query);
-
         if ($result && mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
-
             if (password_verify($password, $user['password'])) {
+                // set session active
                 $_SESSION['user_id'] = $user['id'];         
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-
+                // fitur "remember me" / cookies
+                if (isset($_POST['remember'])) {
+                    setcookie('user_id', $user['id'], time() + (86400 * 7), "/");
+                }
+                // redirect ke home page lagi (index.php)
                 header("Location: index.php");
-                exit; // langsung ke dashboard setelah login
+                exit; 
             } else {
-                $error = "Wrong Password!";
+                $error = "Wrong Password";
             }
         } else {
-            $error = "Email not registered!";
+            $error = "Not registered";
         }
     }
 }
@@ -42,16 +45,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h2>Login ke CineRent</h2>
-
     <?php if (!empty($error)) { echo "<p style='color:red;'>$error</p>"; } ?>
-
-    <!-- Form Login -->
     <form action="login.php" method="POST">
         <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+        <input type="email" name="email" placeholder="your@gmail.com" required><br><br>
 
         <label>Password:</label><br>
         <input type="password" name="password" required><br><br>
+
+        <label>
+            <input type="checkbox" name="remember"> Remember me for 7 days
+        </label><br><br>    
 
         <button type="submit">Login</button>
     </form>

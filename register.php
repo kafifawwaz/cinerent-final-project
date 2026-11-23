@@ -64,61 +64,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Cinerent</title>
+  <title>Register - CInerent</title>
   <link rel="stylesheet" href="./assets/css/register.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/header.css">
+  <link rel="stylesheet" href="./assets/css/footer.css">
 </head>
 <body>
-    <?php 
-  include './includes/header.php'; 
-  ?>
+  <php include './include/heaeder.php'; ?>
+
   <div class="register-wrap">
-    <form class="registerForm">
-      <h1>CineRent <br>Create Account</h1>
+    <form action="register.php" method="POST" class="registerForm">
+      <h1>Cinerent <br>Create Account</h1>
       <p>Join CineRent and start renting today</p>
+
+      <!-- error message nya nih -->
+      <?php if (!empty($error)): ?>
+        <p class="error-message"><?php echo $error;?></p>
+      <?php endif;?>  
+
       <div>
         <label for="username">Username</label>
-        <input type="text" placeholder="4-20 characters" id="username" name="username">
+        <input type="text" id="username" name="username" placeholder="4-20 characters" value="<?php echo htmlspecialchars($username ?? ''); ?>">
       </div>
+
       <div>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" placeholder="example@gmail.com">
+        <input type="email" name="email" id="email" placeholder="example@gmail.com" value="<?php echo htmlspecialchars($email ?? ''); ?>">
       </div>
+
       <div class="wrap">
         <div>
           <label for="password">Password</label>
-          <input type="password" placeholder="Min. 8 characters" id="password" name="password">
+          <input type="password" id="password" name="password" placeholder="Min. 8 characters" value>
         </div>
         <div>
-          <label for="password">Confirm Password</label>
-          <input type="password" placeholder="Repeat Password" id="password" name="password">
+          <label for="confirm_password">Confirm Password</label>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Repeat password"> 
         </div>
       </div>
+
       <div class="wrap">
         <div>
           <label for="gender">Gender</label>
           <select name="gender" id="gender">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="">-- Select --</option>
+            <option value="Male" <?php echo (($gender ?? '') === 'Male') ? 'selected' : ''; ?>>Male</option>
+            <option value="Female" <?php echo (($gender ?? '') === 'Female') ? 'selected' : ''; ?>>Female</option>
           </select>
         </div>
-  
+
         <div>
           <label for="dob">Date of Birth</label>
-          <input type="date" name="dob" id="dob">
+          <input type="date" name="dob" id="dob" value="<?php echo htmlspecialchars($dob ?? ''); ?>">
         </div>
-      </div>
-      <div>
-      </div>
+      </div>  
 
-      <div>
-        <input type="checkbox" name="agreement" id="agreement">
-        <label for="agreement">I agree with all terms & condition</label>
-      </div>
-  
-      <button type="submit" class="primary-button">Register</button>
-    </form>
+      <button type="submit" class="primary-button">Create Account</button>
+
+      <p class="login-redirect">
+        Already have an account? <a href="login.php">Sign in</a>
+      </p>
+    </form>  
   </div>
+
+  <?php include './includes/footer.php'; ?>
 </body>
 </html>

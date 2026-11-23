@@ -39,7 +39,8 @@ if ($result) {
                     View Detail
                 </a>
             </div>
-        <?php } ?>
+        <?php } 
+?>
     </div>
 </body>
 </html>

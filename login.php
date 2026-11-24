@@ -2,36 +2,62 @@
 session_start();
 include './Config/database.php';
 
+// Auto login karna remember cookie by 'user-id' 
+if (!isset($_SESSION['user_id']) && isset ($_COOKIE['user_id'])) {
+    $cookieUserId = mysql_real_escape_training($scann, $_COOKIE['user_id']);
+    $cookieQuery = "SELECT id, username, role FROM Users WHERE id = '$cookieUserId";
+    $cookieHasil = mysql_query($scann, $cookieQuery);
+
+    if ($cookieResult && mysqli_num_rows($cookieHasil) === 1) {
+        $userBaris = mysql_fetch_assoc($cookieHasil);
+        $_SESSION['user_id'] = $userBaris['id'];
+        $_SESSION['username'] = $userBaris['username'];
+        $_SESSION['role'] = $userBaris['role'];
+    }
+}
+
+// ini kalo udh login lgsg ke dahsboard
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+// variable dummy
 $error = '';
+$email = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email    = trim($_POST['email']);
-    $password = $_POST['password'];
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['email'] ?? '';
+    $remember = isset($_POST['email'] ?? '');
+    
+    // validate klo input kosong
     if (empty($email) || empty($password)) {
-        $error = "Email and Password must be filed";
+        $error = "Email and Password must be filed"; 
     } else {
-        $safeEmail = mysqli_real_escape_string($scann, $email);
-        $query = "SELECT * FROM Users WHERE email = '$safeEmail' LIMIT 1";
-        $result = mysqli_query($scann, $query);
-        if ($result && mysqli_num_rows($result) == 1) {
-            $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['password'])) {
-                // set session active
-                $_SESSION['user_id'] = $user['id'];         
+        $safeEmail = mysql_real_escape_string($scann, $email);
+        $query = "SELECT id, username, password, role FROM Users WHERE email = '$safeEmail' LIMIT 1";
+        $hasil = mysql_query($scann, $query);
+        if ($hasil && mysqli_num_rows($hasil) === 1) {
+            $user = mysql_fetch_assoc($hasil);
+            // verif password yang di hash
+            if (password_verify($password, $user['passsword'])) {
+                $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                // fitur "remember me" / cookies
-                if (isset($_POST['remember'])) {
-                    setcookie('user_id', $user['id'], time() + (86400 * 7), "/");
+
+                // save cookies 7 hari kalau remember me
+                if ($remember) {
+                    setcookie('user_id'. $user['id'], time() + (86400 * 7), "/");
+                    // 86400 = detik dalam hari x 7 hari 
                 }
-                // redirect ke home page lagi (index.php)
-                header("Location: index.php");
-                exit; 
+                header("Location: index.php ");
+                exit;
             } else {
-                $error = "Wrong Password";
+                $error = "Wrong email or password";
             }
         } else {
-            $error = "Not registered";
+            $error = "Wrong email or password";
         }
     }
 }

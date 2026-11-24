@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($username)) {
         $usernameError = "Username is required.";
-    } elseif (strlen($username) < 4 || strlen($username) > 20){
+    } else if (strlen($username) < 4 || strlen($username) > 20){
         $usernameError = "Username must be 4 - 20 characters. ";
     } else {
         $checkUsernameQuery = "SELECT id FROM Users WHERE username = ? AND id !=?";
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($email)) {
         $emailError = "Email is required";
-    } elseif (substr($email, -10) != '@gmail.com') {
+    } else if (substr($email, -10) != '@gmail.com') {
         $emailError = "Email must end wiith @gmail.com";
     } else {
         $checkEmailQuery = "SELECT id FROM Users WHERE email = ? AND id != ?";

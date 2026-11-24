@@ -1,0 +1,57 @@
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-bg);
+    width: 33vw;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 46px;
+}
+
+
+.login-p {
+    color: var(--text-secondary-color);
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-wrap {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input {
+    background-color: var(--ternetray-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--text-color);
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.primary-button {
+    width: 100%;
+}

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = "The password does not match";
   } else if($gender !== 'Male' && $gender !== 'Female') {
     $error = "Choose gender";
-  } else if($strtotime($dateOfBirth) >= strtotime(date('Y-m-d'))) {
+  } else if(strtotime($dateOfBirth) >= strtotime(date('Y-m-d'))) {
     $error = "Date of birth must be dates from past";
   } else {
     // amankan user input sebelum query ke dabes
@@ -71,41 +71,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link rel="stylesheet" href="./assets/css/footer.css">
 </head>
 <body>
-  <php include './include/heaeder.php'; ?>
+  <?php include './includes/header.php'; ?>
 
   <div class="register-wrap">
     <form action="register.php" method="POST" class="registerForm">
-      <h1>Cinerent <br>Create Account</h1>
-      <p>Join CineRent and start renting today</p>
+      <h1>Cinerent</h1>
+      <h2>Create Account</h2>
+      <p class="join">Join CineRent and start renting today</p>
 
       <!-- error message nya nih -->
       <?php if (!empty($error)): ?>
         <p class="error-message"><?php echo $error;?></p>
       <?php endif;?>  
 
-      <div>
+      <div class="input-wrap">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="4-20 characters" value="<?php echo htmlspecialchars($username ?? ''); ?>">
       </div>
 
-      <div>
+      <div class="input-wrap">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" placeholder="example@gmail.com" value="<?php echo htmlspecialchars($email ?? ''); ?>">
       </div>
 
       <div class="wrap">
-        <div>
+        <div class="input-wrap">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" placeholder="Min. 8 characters" value>
         </div>
-        <div>
+        <div class="input-wrap">
           <label for="confirm_password">Confirm Password</label>
           <input type="password" id="confirm_password" name="confirm_password" placeholder="Repeat password"> 
         </div>
       </div>
 
       <div class="wrap">
-        <div>
+        <div class="input-wrap">
           <label for="gender">Gender</label>
           <select name="gender" id="gender">
             <option value="">-- Select --</option>
@@ -114,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </select>
         </div>
 
-        <div>
+        <div class="input-wrap">
           <label for="dob">Date of Birth</label>
           <input type="date" name="dob" id="dob" value="<?php echo htmlspecialchars($dob ?? ''); ?>">
         </div>

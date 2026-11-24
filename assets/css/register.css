@@ -1,3 +1,12 @@
+body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
 .register-wrap {
   display: flex;
   justify-content: center;
@@ -7,13 +16,28 @@
 
 .registerForm {
   display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-bg);
+  width: 33vw;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--border-color);
-  padding: 20px;
+  gap: 12px;
+  padding: 46px;
+}
+
+.input-wrap {
+  display: flex;
+  width: 100%;
   flex-direction: column;
-  text-align: center;
-  border-radius: 8px;
+  gap: 8px;
+}
+
+.wrap {
+  display: flex;
+  width: 100%;
+  gap: 24px;
 }
 
 .registerForm div {
@@ -24,4 +48,33 @@
 .registerForm .wrap {
   display: flex;
   flex-direction: row;
+}
+
+.join {
+  color: var(--text-secondary-color);
+}
+
+input {
+  background-color: var(--ternetray-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text-color);
+}
+
+select {
+  background-color: var(--ternetray-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text-color);
+}
+
+.login-redirect a {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.primary-button {
+  width: 100%;
 }

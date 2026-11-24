@@ -1,7 +1,8 @@
 :root {
   --primary-bg: #000000;
-  --secondary-bg: #3d3d3d;
-  --border-color: #707070;
+  --secondary-bg: #141414;
+  --ternetray-bg: #222222;
+  --border-color: #535353;
   --text-color: #ffffff;
   --text-secondary-color: #707070;
   --accent: #c92a1c;
@@ -118,6 +119,13 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 5px;
   background-color: var(--secondary-bg);
+  width: 220px;
+}
+
+.movie-list {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 .movie-details {
@@ -143,6 +151,11 @@ body {
   justify-content: space-between;
   align-items: start;
   flex-direction: column;
+}
+
+.movie-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .movie-year {
@@ -177,25 +190,5 @@ body {
   align-items: center;
 }
 
-.footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: start;
-  flex-direction: row;
-  width: 100vw;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: 3rem;
-}
 
-.footer div {
-  width: 25vw;
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  flex-direction: column;
-}
 
-.footer ul {
-  list-style: none;
-}

@@ -24,6 +24,7 @@ CREATE TABLE Films (
     director VARCHAR(50) NOT NULL,
     releaseYear INT(10) NOT NULL,
     stock INT(10) NOT NULL DEFAULT 0,
+    imageURL VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_films_genre
         FOREIGN KEY (genreId) REFERENCES Genre(id)
